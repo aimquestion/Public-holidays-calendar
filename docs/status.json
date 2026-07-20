@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20T07:26:09+00:00",
+  "generated": "2026-07-20T07:31:28+00:00",
   "public": {
     "source": "holidays-lib",
     "count": 347
@@ -37,9 +37,8 @@
       "count": 19
     },
     "WA": {
-      "source": "seed",
-      "count": 4,
-      "error": "live fetch returned no events"
+      "source": "live",
+      "count": 23
     }
   }
 }
