@@ -32,8 +32,54 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: Install headless browser (Playwright)
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
       - name: Build calendars
         run: python -m src.build
+
+      - name: DIAG headless fetch ACT/NT/SA (temporary)
+        run: |
+          python - <<'PY'
+          import re
+          from bs4 import BeautifulSoup
+          from playwright.sync_api import sync_playwright
+          from src.school import act, nt, sa
+
+          UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+          targets = {"ACT": act.SOURCE_URL, "NT": nt.SOURCE_URL, "SA": sa.SOURCE_URL}
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              ctx = browser.new_context(user_agent=UA, locale="en-AU")
+              page = ctx.new_page()
+              for code, url in targets.items():
+                  print("=" * 70)
+                  print(code, url)
+                  try:
+                      resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                      page.wait_for_timeout(4000)  # let any bot-challenge JS resolve
+                      status = resp.status if resp else None
+                      html = page.content()
+                      soup = BeautifulSoup(html, "lxml")
+                      tables = soup.find_all("table")
+                      print("status", status, "| len", len(html), "| tables", len(tables),
+                            "| title", repr((soup.title.get_text(strip=True) if soup.title else "")[:50]))
+                      heads = [h.get_text(" ", strip=True)[:50] for h in soup.find_all(re.compile(r"^h[1-6]$"))
+                               if re.search(r"20\d\d|term", h.get_text(), re.I)]
+                      print("year/term headings:", heads[:8])
+                      for i, t in enumerate(tables[:4]):
+                          rows = t.find_all("tr")
+                          print(f"  table[{i}] rows={len(rows)}")
+                          for tr in rows[:4]:
+                              cells = [c.get_text(' ', strip=True) for c in tr.find_all(['td', 'th'])]
+                              print("      ", cells)
+                  except Exception as e:
+                      print("ERR", repr(e))
+              browser.close()
+          PY
 
       - name: Surface degraded sources
         run: |
