@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20T02:38:18+00:00",
+  "generated": "2026-07-20T03:19:07+00:00",
   "public": {
     "source": "holidays-lib",
     "count": 347
@@ -11,9 +11,8 @@
       "error": "403 Client Error: Forbidden for url: https://www.education.act.gov.au/public-school-life/term_dates_and_public_holidays"
     },
     "NSW": {
-      "source": "none",
-      "count": 0,
-      "error": "live fetch returned no events"
+      "source": "live",
+      "count": 79
     },
     "NT": {
       "source": "seed",
@@ -21,9 +20,8 @@
       "error": "403 Client Error: Forbidden for url: https://nt.gov.au/learning/primary-and-secondary-students/school-term-dates-in-nt"
     },
     "QLD": {
-      "source": "none",
-      "count": 0,
-      "error": "403 Client Error: Forbidden for url: https://education.qld.gov.au/about/Documents/qld-school-holidays.ics"
+      "source": "live",
+      "count": 24
     },
     "SA": {
       "source": "seed",
@@ -31,19 +29,17 @@
       "error": "403 Client Error: Forbidden for url: https://www.education.sa.gov.au/students/term-dates-south-australian-state-schools"
     },
     "TAS": {
-      "source": "none",
-      "count": 0,
-      "error": "403 Client Error: Forbidden for url: https://www.decyp.tas.gov.au/learning/term-dates/"
+      "source": "live",
+      "count": 37
     },
     "VIC": {
-      "source": "seed",
-      "count": 12,
-      "error": "403 Client Error: Forbidden for url: https://www.vic.gov.au/school-term-dates-and-holidays-victoria"
+      "source": "live",
+      "count": 19
     },
     "WA": {
       "source": "seed",
       "count": 4,
-      "error": "403 Client Error: Forbidden for url: https://www.education.wa.edu.au/future-term-dates"
+      "error": "live fetch returned no events"
     }
   }
 }
