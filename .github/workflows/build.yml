@@ -35,6 +35,33 @@ jobs:
       - name: Build calendars
         run: python -m src.build
 
+      - name: DIAG school sources (temporary)
+        run: |
+          python - <<'PY'
+          import requests
+          from bs4 import BeautifulSoup
+          from src.school import act, nt, sa, wa, base
+          for mod in (act, nt, sa, wa):
+              url = mod.SOURCE_URL
+              print("=" * 70)
+              print(mod.__name__, url)
+              try:
+                  r = requests.get(url, headers=base._HEADERS, timeout=30)
+                  print("status", r.status_code, "| ctype", r.headers.get("content-type"), "| len", len(r.content))
+                  soup = BeautifulSoup(r.content, "lxml")
+                  tables = soup.find_all("table")
+                  print("tables:", len(tables))
+                  for i, t in enumerate(tables[:8]):
+                      cap = t.find("caption")
+                      rows = t.find_all("tr")
+                      print(f"  table[{i}] caption={cap.get_text(' ', strip=True) if cap else None} rows={len(rows)}")
+                      for tr in rows[:4]:
+                          cells = [c.get_text(' ', strip=True) for c in tr.find_all(['td', 'th'])]
+                          print("      ", cells)
+              except Exception as e:
+                  print("ERR", repr(e))
+          PY
+
       - name: Surface degraded sources
         run: |
           python - <<'PY'

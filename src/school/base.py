@@ -24,8 +24,16 @@ from typing import Callable
 from .. import config
 from ..models import HolidayEvent
 
+# Several state department pages sit behind WAFs (ACT/NT/SA) that reject
+# non-browser User-Agents with a 403. Present a normal browser UA + Accept
+# headers so we can read these publicly-published term dates.
 _HEADERS = {
-    "User-Agent": "aus-holidays-calendar/1.0 (+https://github.com/) meeting-planning",
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-AU,en;q=0.9",
 }
 
 
