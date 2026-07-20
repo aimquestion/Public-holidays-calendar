@@ -51,12 +51,15 @@ broken department page never empties the calendar. Per-run health is written to
   live page and confirming the derived breaks match the seed for 2026.
 
 ## Known soft spots (don't "fix" without checking)
-- **ACT/NT/SA are WAF-blocked (403)** from any server-side fetch — verified on
-  GitHub Actions with both the default and a real browser User-Agent. They fall
-  back to seed and that's the intended behaviour; don't chase the 403 with header
-  tweaks (already tried). To make them live you'd need a headless browser
-  (Playwright) fetch, which isn't worth it while the seed is accurate. Refresh
-  `data/seed/{act,nt,sa}.csv` each year instead.
+- **ACT/NT/SA are Cloudflare-blocked (403)** from any server-side fetch — the
+  pages serve Cloudflare's "Just a moment..." challenge. Verified on GitHub
+  Actions three ways: default UA, a real browser UA, and a **full headless
+  Chromium (Playwright)** — all returned 403, because the block is on the
+  runner's datacenter IP reputation, not the client. A cloud runner cannot pass
+  it (short of anti-bot-evasion tooling, which is fragile and out of scope). They
+  fall back to seed and that's the intended behaviour — don't re-try headers or a
+  headless browser. Refresh `data/seed/{act,nt,sa}.csv` each year instead (the CI
+  warning + `status.json` flag which states are on seed).
 - WA/ACT/NT **summer-break end dates** (return in early 2027) in the seeds are
   provisional; WA now confirms them from the live scrape. Everything else in the
   seeds is verified against official sources.
