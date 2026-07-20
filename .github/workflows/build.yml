@@ -35,37 +35,6 @@ jobs:
       - name: Build calendars
         run: python -m src.build
 
-      - name: DIAG WA year structure (temporary)
-        run: |
-          python - <<'PY'
-          import re
-          import requests
-          from bs4 import BeautifulSoup
-          from src.school import wa, base
-          r = requests.get(wa.SOURCE_URL, headers=base._HEADERS, timeout=30)
-          soup = BeautifulSoup(r.content, "lxml")
-          print("=== headings containing a year ===")
-          for tag in soup.find_all(re.compile(r"^h[1-6]$")):
-              txt = tag.get_text(" ", strip=True)
-              if re.search(r"20\d\d", txt):
-                  print("HEADING", tag.name, repr(txt[:60]))
-          print("=== any element whose text is exactly a year ===")
-          for tag in soup.find_all(string=re.compile(r"^\s*20\d\d\s*$")):
-              parent = tag.parent
-              print("YEARNODE", parent.name, repr(tag.strip()), "| gp:", parent.parent.name if parent.parent else None)
-          tables = soup.find_all("table")
-          print("num tables", len(tables))
-          for idx in (0, 2):
-              t = tables[idx]
-              print(f"--- table[{idx}] nearest preceding headings ---")
-              node = t
-              for _ in range(6):
-                  node = node.find_previous(re.compile(r"^h[1-6]$"))
-                  if node is None:
-                      break
-                  print("   prev", node.name, repr(node.get_text(" ", strip=True)[:60]))
-          PY
-
       - name: Surface degraded sources
         run: |
           python - <<'PY'

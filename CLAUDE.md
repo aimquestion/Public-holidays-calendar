@@ -18,8 +18,15 @@ broken department page never empties the calendar. Per-run health is written to
 
 ## Data sources
 - Public holidays: `src/public_holidays.py` (the `holidays` library).
-- School — official `.ics` feeds: QLD, NSW (per-year), TAS.
-- School — HTML term-date tables via `base.parse_term_tables`: VIC, WA, SA, ACT, NT.
+- School — official `.ics` feeds: QLD, NSW (per-year), TAS. **(live)**
+- School — HTML term-date tables via `base.parse_term_tables`: VIC. **(live)**
+- School — WA: its own parser in `src/school/wa.py` (its markup differs from
+  VIC's — see that file). **(live)**
+- School — ACT, NT, SA: department pages sit behind a WAF that returns **403 to
+  any HTTP client, including GitHub Actions** (a browser User-Agent does not get
+  through). These run on **verified seed CSV** and will keep showing `seed` in
+  `status.json` until either the seed is refreshed or a headless-browser fetch is
+  added. This is expected, not a regression.
 - Verified seed data checked in: VIC 2026–2028; WA/SA/ACT/NT 2026.
 
 ## First tasks (in order)
@@ -44,9 +51,15 @@ broken department page never empties the calendar. Per-run health is written to
   live page and confirming the derived breaks match the seed for 2026.
 
 ## Known soft spots (don't "fix" without checking)
+- **ACT/NT/SA are WAF-blocked (403)** from any server-side fetch — verified on
+  GitHub Actions with both the default and a real browser User-Agent. They fall
+  back to seed and that's the intended behaviour; don't chase the 403 with header
+  tweaks (already tried). To make them live you'd need a headless browser
+  (Playwright) fetch, which isn't worth it while the seed is accurate. Refresh
+  `data/seed/{act,nt,sa}.csv` each year instead.
 - WA/ACT/NT **summer-break end dates** (return in early 2027) in the seeds are
-  provisional; they confirm from the live scrape. Everything else in the seeds is
-  verified against official sources.
+  provisional; WA now confirms them from the live scrape. Everything else in the
+  seeds is verified against official sources.
 - `holidays` library covers AFL Grand Final Day and other proclaimed holidays for
   announced years; far-future entries are rule-based estimates. This is expected —
   don't add a second public-holiday source unless a real discrepancy appears.

@@ -53,11 +53,12 @@ Every school source is implemented:
 
 | State | Method | Notes |
 |-------|--------|-------|
-| QLD | official `.ics` feed | rolling feed, parsed directly |
-| NSW | official per-year `.ics` | discovered from the calendar page |
-| TAS | official `.ics` feed | link found on the term-dates page |
-| VIC, SA, ACT, NT | `base.parse_term_tables` | reads the department's Term/Start/Finish tables and derives breaks |
-| WA | `base.parse_term_tables` | same table parser |
+| QLD | official `.ics` feed | rolling feed, parsed directly — **live** |
+| NSW | official per-year `.ics` | discovered from the calendar page — **live** |
+| TAS | official `.ics` feed | link found on the term-dates page — **live** |
+| VIC | `base.parse_term_tables` | reads the department's Term/Start/Finish tables and derives breaks — **live** |
+| WA | `src/school/wa.py` | dedicated parser (year in `<h4>`, one-cell "start to finish" rows) — **live** |
+| SA, ACT, NT | seed CSV | department pages return **403 to any server-side fetch** (WAF, confirmed on GitHub Actions); these use verified seed data until refreshed or a headless-browser fetch is added |
 
 The generic table parser pulls the year from each table's heading/caption, reads
 the `Term | Start | Finish` rows (ignoring the "students start…" parenthetical),
