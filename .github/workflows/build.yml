@@ -45,12 +45,13 @@ jobs:
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "Accept-Language": "en-AU,en;q=0.9"}
           cands = {
-            "newywithkids-SA":  "https://newywithkids.com.au/south-australia-school-term-dates-public-holidays/",
-            "saschoolhols-2027":"https://saschoolholidays.com.au/sa-school-holidays-2027/",
-            "payly-SA-2026":    "https://www.payly.com.au/calendars/sa-school-holidays-2026",
-            "payly-SA-2027":    "https://www.payly.com.au/calendars/sa-school-holidays-2027",
-            "payly-NT-2026":    "https://www.payly.com.au/calendars/nt-school-holidays-2026",
-            "payly-ACT-2026":   "https://www.payly.com.au/calendars/act-school-holidays-2026",
+            "SA-2026":  "https://saschoolholidays.com.au/sa-school-holidays-2026/",
+            "SA-2028":  "https://saschoolholidays.com.au/sa-school-holidays-2028/",
+            "SA-2030":  "https://saschoolholidays.com.au/sa-school-holidays-2030/",
+            "NT-2026":  "https://ntschoolholidays.com.au/nt-school-holidays-2026/",
+            "NT-2027":  "https://ntschoolholidays.com.au/nt-school-holidays-2027/",
+            "ACT-2026a":"https://actschoolholidays.com.au/act-school-holidays-2026/",
+            "ACT-2026b":"https://schoolholidaysact.com.au/act-school-holidays-2026/",
           }
           for name, url in cands.items():
               print("=" * 72)
