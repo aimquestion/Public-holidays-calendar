@@ -45,13 +45,12 @@ jobs:
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "Accept-Language": "en-AU,en;q=0.9"}
           cands = {
-            "SA-2026":  "https://saschoolholidays.com.au/sa-school-holidays-2026/",
-            "SA-2028":  "https://saschoolholidays.com.au/sa-school-holidays-2028/",
-            "SA-2030":  "https://saschoolholidays.com.au/sa-school-holidays-2030/",
-            "NT-2026":  "https://ntschoolholidays.com.au/nt-school-holidays-2026/",
-            "NT-2027":  "https://ntschoolholidays.com.au/nt-school-holidays-2027/",
-            "ACT-2026a":"https://actschoolholidays.com.au/act-school-holidays-2026/",
-            "ACT-2026b":"https://schoolholidaysact.com.au/act-school-holidays-2026/",
+            "NT-a-2026":"https://schoolholidaysnt.com.au/nt-school-holidays-2026/",
+            "NT-b-2026":"https://ntschoolholidays.com.au/nt-school-holiday-dates-2026/",
+            "NT-c-2026":"https://schoolholidaysnt.com.au/nt-school-holidays-2027/",
+            "ACT-2027": "https://schoolholidaysact.com.au/act-school-holidays-2027/",
+            "ACT-2029": "https://schoolholidaysact.com.au/act-school-holidays-2029/",
+            "SANT-hub": "https://schoolholidaysnt.com.au/",
           }
           for name, url in cands.items():
               print("=" * 72)
