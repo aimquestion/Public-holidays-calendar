@@ -1,32 +1,29 @@
 {
-  "generated": "2026-07-21T00:16:25+00:00",
+  "generated": "2026-07-21T00:25:36+00:00",
   "public": {
     "source": "holidays-lib",
     "count": 347
   },
   "school": {
     "ACT": {
-      "source": "seed",
-      "count": 4,
-      "error": "403 Client Error: Forbidden for url: https://www.education.act.gov.au/public-school-life/term_dates_and_public_holidays"
+      "source": "live",
+      "count": 19
     },
     "NSW": {
       "source": "live",
       "count": 79
     },
     "NT": {
-      "source": "seed",
-      "count": 4,
-      "error": "403 Client Error: Forbidden for url: https://nt.gov.au/learning/primary-and-secondary-students/school-term-dates-in-nt"
+      "source": "live",
+      "count": 23
     },
     "QLD": {
       "source": "live",
       "count": 24
     },
     "SA": {
-      "source": "seed",
-      "count": 4,
-      "error": "403 Client Error: Forbidden for url: https://www.education.sa.gov.au/students/term-dates-south-australian-state-schools"
+      "source": "live",
+      "count": 19
     },
     "TAS": {
       "source": "live",
