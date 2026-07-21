@@ -1,17 +1,20 @@
-"""South Australia school holidays — parsed from official term-date tables.
+"""South Australia school holidays — parsed from a public per-year calendar site.
 
-Source: https://www.education.sa.gov.au/students/term-dates-south-australian-state-schools
-SA publishes term dates as HTML tables; base.parse_term_tables reads them
-and derives the between-term holiday breaks. Verified 2026 dates are seeded in
-data/seed/sa.csv as the safety net, and the live scrape extends/refreshes
-this on GitHub Actions.
+SA's official department page (education.sa.gov.au) is Cloudflare-blocked from
+any server (including GitHub Actions), so we read term dates from this public
+per-year site instead. Each page has a "Term N | start | end" table with full
+dates; base.breaks_from_term_pages collects the terms across a run of yearly
+pages and derives the between-term breaks. Verified 2026 dates are seeded in
+data/seed/sa.csv as the safety net.
 """
 
+from .. import config
 from ..models import HolidayEvent
 from . import base
 
-SOURCE_URL = "https://www.education.sa.gov.au/students/term-dates-south-australian-state-schools"
+SOURCE_TEMPLATE = "https://saschoolholidays.com.au/sa-school-holidays-{year}/"
 
 
 def fetch(years: range) -> list[HolidayEvent]:
-    return base.parse_term_tables(base.http_get(SOURCE_URL), "SA", years)
+    scan = range(config.SCHOOL_START_YEAR, config.PUBLIC_END_YEAR + 1)
+    return base.breaks_from_term_pages(SOURCE_TEMPLATE, "SA", scan)

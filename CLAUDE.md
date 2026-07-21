@@ -22,12 +22,16 @@ broken department page never empties the calendar. Per-run health is written to
 - School — HTML term-date tables via `base.parse_term_tables`: VIC. **(live)**
 - School — WA: its own parser in `src/school/wa.py` (its markup differs from
   VIC's — see that file). **(live)**
-- School — ACT, NT, SA: department pages sit behind a WAF that returns **403 to
-  any HTTP client, including GitHub Actions** (a browser User-Agent does not get
-  through). These run on **verified seed CSV** and will keep showing `seed` in
-  `status.json` until either the seed is refreshed or a headless-browser fetch is
-  added. This is expected, not a regression.
-- Verified seed data checked in: VIC 2026–2028; WA/SA/ACT/NT 2026.
+- School — ACT, NT, SA: their **official** department pages are Cloudflare-blocked
+  (403 to any server, incl. GitHub Actions — see soft spots). Instead they read
+  from a family of public **per-year** calendar sites via
+  `base.breaks_from_term_pages`: **(live)**
+    - SA:  `saschoolholidays.com.au/sa-school-holidays-<year>/`
+    - NT:  `schoolholidaysnt.com.au/nt-school-holidays-<year>/`
+    - ACT: `schoolholidaysact.com.au/act-school-holidays-<year>/`
+  Each page has a `Term N | start | end` table with full dates; the parser walks
+  consecutive yearly pages (this year → +5) and derives the between-term breaks.
+- Verified seed data checked in (fallback only): VIC 2026–2028; WA/SA/ACT/NT 2026.
 
 ## First tasks (in order)
 1. **Push and deploy** (I have the user's git/gh credentials locally):
@@ -51,15 +55,18 @@ broken department page never empties the calendar. Per-run health is written to
   live page and confirming the derived breaks match the seed for 2026.
 
 ## Known soft spots (don't "fix" without checking)
-- **ACT/NT/SA are Cloudflare-blocked (403)** from any server-side fetch — the
-  pages serve Cloudflare's "Just a moment..." challenge. Verified on GitHub
+- **ACT/NT/SA official pages are Cloudflare-blocked (403)** from any server-side
+  fetch — they serve Cloudflare's "Just a moment..." challenge. Verified on GitHub
   Actions three ways: default UA, a real browser UA, and a **full headless
-  Chromium (Playwright)** — all returned 403, because the block is on the
-  runner's datacenter IP reputation, not the client. A cloud runner cannot pass
-  it (short of anti-bot-evasion tooling, which is fragile and out of scope). They
-  fall back to seed and that's the intended behaviour — don't re-try headers or a
-  headless browser. Refresh `data/seed/{act,nt,sa}.csv` each year instead (the CI
-  warning + `status.json` flag which states are on seed).
+  Chromium (Playwright)** — all 403 (the block is on the runner's datacenter IP
+  reputation, not the client). So we don't hit the official pages at all; we read
+  the community per-year sites listed under Data sources instead. Don't re-try the
+  official pages with headers or a headless browser — it won't work from CI.
+- **ACT/NT/SA live data is third-party** (community calendar sites, not the
+  department). Their near-term dates match the official term dates (cross-checked
+  for 2026); far-future years are those sites' projections. If one changes layout
+  or goes down, that state falls back to cache → seed and `status.json` flags it —
+  fix by adjusting the parser or refreshing the seed.
 - WA/ACT/NT **summer-break end dates** (return in early 2027) in the seeds are
   provisional; WA now confirms them from the live scrape. Everything else in the
   seeds is verified against official sources.

@@ -184,6 +184,73 @@ def parse_term_tables(html: bytes, state: str, years: range) -> list[HolidayEven
     return breaks_from_terms(terms, state)
 
 
+# --- per-year "school holidays" sites (SA/NT/ACT live sources) ---------------
+# ACT/NT/SA government pages are Cloudflare-blocked from any server, so those
+# three read from a family of public per-year calendar sites (saschoolholidays,
+# schoolholidaysnt, schoolholidaysact). Each publishes a "Term N | start | end"
+# table with FULL dates ("Friday 10 April 2026"); we collect the terms across a
+# run of yearly pages and derive the between-term breaks (summer break included).
+
+_FULL_DATE_RE = re.compile(r"(\d{1,2})\s+([A-Za-z]+)\s+(20\d\d)")
+
+
+def full_dates(text: str) -> list:
+    """Every 'D Month YYYY' in a string, in order, as date objects."""
+    from datetime import date as _date
+
+    out = []
+    for m in _FULL_DATE_RE.finditer(text.replace("\xa0", " ")):
+        month = _MONTHS.get(m.group(2).lower())
+        if not month:
+            continue
+        try:
+            out.append(_date(int(m.group(3)), month, int(m.group(1))))
+        except ValueError:
+            pass
+    return out
+
+
+def _terms_from_full_date_table(html: bytes, year: int) -> list[tuple]:
+    """Read 'Term N | start | end' rows (full dates) from a yearly page. Rows
+    whose first cell is exactly 'Term N' only, so 'Term 1 / Autumn holidays'
+    (holiday-summary rows on some of these sites) are ignored. Uses the last date
+    in each cell (some start cells list new- and continuing-student dates)."""
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "lxml")
+    terms: list[tuple] = []
+    for table in soup.find_all("table"):
+        for tr in table.find_all("tr"):
+            cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
+            if len(cells) < 3 or not re.match(r"(?i)^\s*term\s*\d\s*$", cells[0]):
+                continue
+            sd, ed = full_dates(cells[1]), full_dates(cells[2])
+            if not sd or not ed:
+                continue
+            start, end = sd[-1], ed[-1]
+            if end >= start and (start.year == year or end.year == year):
+                terms.append((start, end))
+    return terms
+
+
+def breaks_from_term_pages(url_template: str, state: str, years) -> list[HolidayEvent]:
+    """Fetch consecutive yearly pages (url_template.format(year=Y)) and derive the
+    school-holiday breaks from their term tables. Stops at the first year that
+    fails or has no term table, so a gap can never create a bogus year-long
+    'break' between non-adjacent years."""
+    terms: list[tuple] = []
+    for year in sorted(years):
+        try:
+            page = http_get(url_template.format(year=year))
+        except Exception:
+            break
+        got = _terms_from_full_date_table(page, year)
+        if not got:
+            break
+        terms.extend(got)
+    return breaks_from_terms(sorted(set(terms)), state)
+
+
 def find_ics_link(page_html: bytes, base_url: str) -> str | None:
     """Return the first .ics link on a page (used by states that publish a feed
     behind a normal HTML page, e.g. TAS)."""
