@@ -35,6 +35,45 @@ jobs:
       - name: Build calendars
         run: python -m src.build
 
+      - name: DIAG probe alternative sources (temporary)
+        run: |
+          python - <<'PY'
+          import requests
+          from bs4 import BeautifulSoup
+          UA = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                               "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"),
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-AU,en;q=0.9"}
+          cands = {
+            "newywithkids-SA":  "https://newywithkids.com.au/south-australia-school-term-dates-public-holidays/",
+            "saschoolhols-2027":"https://saschoolholidays.com.au/sa-school-holidays-2027/",
+            "payly-SA-2026":    "https://www.payly.com.au/calendars/sa-school-holidays-2026",
+            "payly-SA-2027":    "https://www.payly.com.au/calendars/sa-school-holidays-2027",
+            "payly-NT-2026":    "https://www.payly.com.au/calendars/nt-school-holidays-2026",
+            "payly-ACT-2026":   "https://www.payly.com.au/calendars/act-school-holidays-2026",
+          }
+          for name, url in cands.items():
+              print("=" * 72)
+              print(name, url)
+              try:
+                  r = requests.get(url, headers=UA, timeout=30)
+                  soup = BeautifulSoup(r.content, "lxml")
+                  tables = soup.find_all("table")
+                  txt = soup.get_text(" ", strip=True).lower()
+                  markers = [k for k in ("term 1", "term 4", "2026", "2027", "holiday") if k in txt]
+                  print("status", r.status_code, "| ctype", r.headers.get("content-type"),
+                        "| len", len(r.content), "| tables", len(tables), "| markers", markers)
+                  for i, t in enumerate(tables[:3]):
+                      rows = t.find_all("tr")
+                      print(f"  table[{i}] rows={len(rows)}")
+                      for tr in rows[:6]:
+                          cells = [c.get_text(' ', strip=True) for c in tr.find_all(['td', 'th'])]
+                          if cells:
+                              print("    ", cells)
+              except Exception as e:
+                  print("ERR", repr(e))
+          PY
+
       - name: Surface degraded sources
         run: |
           python - <<'PY'
