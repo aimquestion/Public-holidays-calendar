@@ -320,5 +320,194 @@
     "start": "2027-04-03",
     "state": "TAS",
     "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-05-02",
+    "start": "2027-05-01",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-05-09",
+    "start": "2027-05-08",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-05-16",
+    "start": "2027-05-15",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-05-23",
+    "start": "2027-05-22",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-05-30",
+    "start": "2027-05-29",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-06-06",
+    "start": "2027-06-05",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-06-13",
+    "start": "2027-06-12",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-06-20",
+    "start": "2027-06-19",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-06-27",
+    "start": "2027-06-26",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-07-25",
+    "start": "2027-07-24",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-08-01",
+    "start": "2027-07-31",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-08-08",
+    "start": "2027-08-07",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-08-15",
+    "start": "2027-08-14",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-08-22",
+    "start": "2027-08-21",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-08-29",
+    "start": "2027-08-28",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-09-05",
+    "start": "2027-09-04",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-09-12",
+    "start": "2027-09-11",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-09-19",
+    "start": "2027-09-18",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-10-17",
+    "start": "2027-10-16",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-10-24",
+    "start": "2027-10-23",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-10-31",
+    "start": "2027-10-30",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-11-07",
+    "start": "2027-11-06",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-11-14",
+    "start": "2027-11-13",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-11-21",
+    "start": "2027-11-20",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-11-28",
+    "start": "2027-11-27",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-12-05",
+    "start": "2027-12-04",
+    "state": "TAS",
+    "summary": "School holidays"
+  },
+  {
+    "category": "school",
+    "end": "2027-12-12",
+    "start": "2027-12-11",
+    "state": "TAS",
+    "summary": "School holidays"
   }
 ]

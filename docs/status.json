@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-28T22:44:46+00:00",
+  "generated": "2026-10-05T23:28:48+00:00",
   "public": {
     "source": "holidays-lib",
     "count": 347
@@ -27,7 +27,7 @@
     },
     "TAS": {
       "source": "live",
-      "count": 46
+      "count": 73
     },
     "VIC": {
       "source": "live",
