@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-19T21:51:02+00:00",
+  "generated": "2026-10-26T22:04:45+00:00",
   "public": {
     "source": "holidays-lib",
-    "count": 347
+    "count": 317
   },
   "school": {
     "ACT": {
@@ -11,7 +11,7 @@
     },
     "NSW": {
       "source": "live",
-      "count": 79
+      "count": 164
     },
     "NT": {
       "source": "live",
