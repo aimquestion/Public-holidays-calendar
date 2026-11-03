@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-26T22:04:45+00:00",
+  "generated": "2026-11-03T00:11:14+00:00",
   "public": {
     "source": "holidays-lib",
     "count": 317
@@ -19,7 +19,7 @@
     },
     "QLD": {
       "source": "live",
-      "count": 24
+      "count": 43
     },
     "SA": {
       "source": "live",
